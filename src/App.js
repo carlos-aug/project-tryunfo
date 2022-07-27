@@ -16,7 +16,7 @@ class App extends React.Component {
       cardRare: '',
       cardTrunfo: false,
       isSaveButtonDisabled: true,
-      // cardSave: [],
+      newCard: [],
     };
   }
 
@@ -72,7 +72,19 @@ class App extends React.Component {
 
   onSaveButtonClick = (event) => {
     event.preventDefault();
-    console.log('ok');
+    const saveCard = { ...this.state };
+    this.setState((prevState) => ({
+      cardName: '',
+      cardDescription: '',
+      cardImage: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardRare: 'normal',
+      // cardTrunfo: false,
+      isSaveButtonDisabled: true,
+      newCard: [...prevState.newCard, saveCard],
+    }));
   }
 
   render() {
