@@ -76,9 +76,9 @@ class App extends React.Component {
       newCard: [...prevState.newCard, saveCard],
     }), () => {
       const { newCard } = this.state;
-      const verifyCard = newCard.some((card) => card.cardTrunfo);
+      const isTrue = newCard.some((item) => item.cardTrunfo);
       this.setState({
-        hasTrunfo: verifyCard,
+        hasTrunfo: isTrue,
       });
     });
   }
