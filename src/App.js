@@ -17,6 +17,7 @@ class App extends React.Component {
       cardTrunfo: false,
       isSaveButtonDisabled: true,
       newCard: [],
+      hasTrunfo: false,
     };
   }
 
@@ -28,8 +29,6 @@ class App extends React.Component {
     }, () => this.enableButton());
   }
 
-  // o botão deve iniciar desabilitado e só habilitar após todos os campos serem preenchidos
-  // os campos nome, descrição, imagem e raridade deve ter alguma informação
   enableButton = () => {
     const {
       cardName,
@@ -43,20 +42,11 @@ class App extends React.Component {
 
     const validateString = cardName.length > 0
     && cardDescription.length > 0 && cardImage.length > 0 && cardRare.length > 0;
-    // this.setState({
-    //   isSaveButtonDisabled: !validateString,
-    // });
-    // a soma de attr1, attr2 e attr3 não podem ultrapassar o valor 210
+
     const sumMaxAttrs = 210;
     const sumAttrs = Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3);
     const validateSum = sumAttrs <= sumMaxAttrs;
-    // if (validateString && validateSum) {
-    //   this.setState({
-    //     isSaveButtonDisabled: !validateSum,
-    //   });
-    //  cada um dos attrs devem ter no minimo 0
-    //  maximo 90 pontos cada
-    // os attrs não podem receber valor negativo
+
     const pointsAttrs = 90;
     const maxPointsAttr1 = cardAttr1 >= 0 && cardAttr1 <= pointsAttrs;
     const maxPointsAttr2 = cardAttr2 >= 0 && cardAttr2 <= pointsAttrs;
@@ -81,10 +71,16 @@ class App extends React.Component {
       cardAttr2: '0',
       cardAttr3: '0',
       cardRare: 'normal',
-      // cardTrunfo: false,
+      cardTrunfo: false,
       isSaveButtonDisabled: true,
       newCard: [...prevState.newCard, saveCard],
-    }));
+    }), () => {
+      const { newCard } = this.state;
+      const verifyCard = newCard.some((card) => card.cardTrunfo);
+      this.setState({
+        hasTrunfo: verifyCard,
+      });
+    });
   }
 
   render() {
@@ -97,10 +93,8 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      // hasTrunfo,
+      hasTrunfo,
       isSaveButtonDisabled,
-      // onInputChange,
-      // onSaveButtonClick,
     } = this.state;
 
     return (
@@ -115,7 +109,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
-          // hasTrunfo,
+          hasTrunfo={ hasTrunfo }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onInputChange={ this.onInputChange }
           onSaveButtonClick={ this.onSaveButtonClick }
